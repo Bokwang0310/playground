@@ -23,6 +23,17 @@ Remove cache:
 $ git rm -r --cached <fileName>
 ```
 
+Fix corruption error in WSL2:
+```bash
+error: object file .git/objects/79/cbddeb3c2e2e6cb41f301bdf1e10c0508066e3 is empty
+error: object file .git/objects/79/cbddeb3c2e2e6cb41f301bdf1e10c0508066e3 is empty
+fatal: loose object 79cbddeb3c2e2e6cb41f301bdf1e10c0508066e3 (stored in .git/objects/79/cbddeb3c2e2e6cb41f301bdf1e10c0508066e3) is corrupt
+```
+* Backup `.git` first.
+* `find .git/objects/ -type f -empty | xargs rm`
+* `git fetch -p`
+* `git fsck --full`
+
 ## Terminal Customizing
 
 Show only current folder in `~/.p10k.zsh`: `truncate_to_last`
