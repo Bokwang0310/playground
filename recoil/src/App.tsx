@@ -1,8 +1,14 @@
+import Counter from './components/Counter';
+import Form from './components/Form';
+import Shuffle from './components/Shuffle';
+
 function App() {
   return (
-    <div className="App">
-      Hello
-    </div>
+    <>
+      <Counter />
+      <Form />
+      <Shuffle />
+    </>
   );
 }
 
