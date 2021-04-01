@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { form, reverseForm } from '../recoil/atom';
+import { form, reverseForm } from '../recoil';
 
 function Form() {
   const [value, setValue] = useRecoilState(form);
@@ -12,7 +12,7 @@ function Form() {
         value={value}
         onChange={e => setValue(e.target.value)}
       />
-      <span>{reversedForm}</span>
+      <span>Reversed: {reversedForm}</span>
     </div>
   );
 }
