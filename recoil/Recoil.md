@@ -211,19 +211,23 @@ function App() {
 export default App;
 ```
 
-또한, set 함수의 인자로 새로운 값을 넘겨줄 수 있을 뿐만 아니라 get을 통해 setter 내에서 atom이나 다른 selector의 값을 조회할 수 있습니다.
+또한, set 함수의 두번째 인자로 새로운 값을 받아올 수 있을 뿐만 아니라 get을 통해 atom이나 다른 selector의 값을 조회할 수 있습니다.
 
 ```ts
-selector({
+const exampleState = selector({
   key: '...',
   get: ({ get }) => {
     /* ... */
   },
   set: ({ set, get }, newValue) => {
     const fooValue = get(fooState);
-    set(barAtom, fooValue + newValue);
+    set(barState, fooValue + newValue);
   },
 });
+
+// 사용하는 곳
+const [value, setValue] = useRecoilState(exampleState);
+setValue('The New Value!');
 ```
 
 ### Selector를 사용하여 비동기 상황 처리하기
