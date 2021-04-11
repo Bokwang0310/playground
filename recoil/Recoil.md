@@ -26,7 +26,7 @@ import App from './App';
 import { RecoilRoot } from 'recoil';
 
 ReactDOM.render(
-  // Recoil을 사용하기 위한 준비
+  // RecoilRoot로 감싸주기만 하면 준비 끝
   <RecoilRoot>
     <App />
   </RecoilRoot>,
@@ -36,13 +36,15 @@ ReactDOM.render(
 
 ### Atom
 
-`atom`은 state와 같은 개념으로 특정 atom의 상태를 참조하고 있는 컴포넌트가 같은 값을 공유하게 되고 값이 업데이트 된다면 그것을 구독하고 있는 모든 컴포넌트가 자동으로 리렌더링 됩니다.
+atom은 state와 같은 개념으로 특정 atom을 구독하고 있는 컴포넌트들끼리 같은 값을 공유하게 되고 atom이 업데이트 된다면 모든 컴포넌트가 자동으로 리렌더링 됩니다.
 
-`atom`은 `key`와 `default`를 필수로 설정해줘야 합니다.
+atom은 `key`와 `default`를 필수로 설정해줘야 합니다.
 
 ```ts
 import { atom } from 'recoil';
 
+// 제네릭을 통해 상태값의 타입을 설정해 줄 수 있다.
+// 타입 추론이 되기 때문에 일반적으로는 직접 해줄 필요가 없지만 null 값이 들어갈 수 있는 타입이거나 복잡한 형태의 타입 같은 경우는 설정해 주는 것이 좋다.
 const countState = atom<number>({
   key: 'countState', // 유일한 값
   default: 0, // 기본값
@@ -70,7 +72,7 @@ const countState = atom<number>({
   default: 0,
 });
 
-function Count() {
+function App() {
   const [count, setCount] = useRecoilState(countState); // atom을 인자로 받는다.
   // const count = useRecoilValue(countState);
   // const setCount = useSetRecoilState(countState);
@@ -83,7 +85,64 @@ function Count() {
   );
 }
 
-export default Count;
+export default App;
 ```
 
 ### Selector
+
+selector는 atom의 파생된(계산된) 데이터를 나타내기 위해 쓰입니다. atom의 값이 변경될 때 selector도 업데이트되며 해당 selector를 구독하고 있는 컴포넌트도 리렌더링 됩니다.
+
+atom과 마찬가지로 `key`를 필수로 설정해줘야하며 `default`가 아닌 `get`을 설정해줘야 합니다.
+
+또한, 위에서 사용했던 세가지 hook을 selector에도 사용합니다.
+
+```tsx
+import { atom, selector } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+const clickAState = atom<number>({
+  key: 'clickAState',
+  default: 0,
+});
+
+const clickBState = atom<number>({
+  key: 'clickBState',
+  default: 0,
+});
+
+const totalClickState = selector<string>({
+  key: 'totalClickState',
+  get: ({ get }) => {
+    const clickACount = get(clickAState);
+    const clickACount = get(clickBState);
+
+    return `You clicked ${clickACount + clickACount} times in total.`;
+  },
+});
+
+function ButtonA() {
+  const [count, setCount] = useRecoilState(clickAState);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+function ButtonB() {
+  const [count, setCount] = useRecoilState(clickAState);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+function App() {
+  const totalCount = useRecoilValue(totalClickState);
+
+  return (
+    <>
+      <ButtonA />
+      <ButtonB />
+      <div>{totalCount}</div>
+    </>
+  );
+}
+
+export default App;
+```
