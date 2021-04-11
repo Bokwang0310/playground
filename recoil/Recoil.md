@@ -114,9 +114,9 @@ const totalClickState = selector<string>({
   key: 'totalClickState',
   get: ({ get }) => {
     const clickACount = get(clickAState);
-    const clickACount = get(clickBState);
+    const clickBCount = get(clickBState);
 
-    return `You clicked ${clickACount + clickACount} times in total.`;
+    return `You clicked ${clickACount + clickBCount} times in total.`;
   },
 });
 
@@ -127,7 +127,7 @@ function ButtonA() {
 }
 
 function ButtonB() {
-  const [count, setCount] = useRecoilState(clickAState);
+  const [count, setCount] = useRecoilState(clickBState);
 
   return <button onClick={() => setCount(count + 1)}>{count}</button>;
 }
