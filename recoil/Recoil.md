@@ -101,8 +101,8 @@ import { atom, selector } from 'recoil';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 const clickAState = atom<number>({
-  key: 'clickAState',
-  default: 0,
+  key: 'clickAState', // 필수
+  default: 0, // 필수
 });
 
 const clickBState = atom<number>({
@@ -110,6 +110,7 @@ const clickBState = atom<number>({
   default: 0,
 });
 
+// 두 atom의 값을 가져와 가공한 후 리턴
 const totalClickState = selector<string>({
   key: 'totalClickState',
   get: ({ get }) => {
@@ -146,3 +147,83 @@ function App() {
 
 export default App;
 ```
+
+### Selector의 Setter
+
+selector에서는 단순히 여러 atom으로부터 값을 가져오고 가공해서 줄 수 있을 뿐만 아니라 여러 atom의 값을 바꿀 수도 있습니다.
+
+```tsx
+import { atom, selector } from 'recoil';
+import { useRecoilState } from 'recoil';
+
+const clickAState = atom<number>({
+  key: 'clickAState',
+  default: 0,
+});
+
+const clickBState = atom<number>({
+  key: 'clickBState',
+  default: 0,
+});
+
+const totalClickState = selector<string>({
+  key: 'totalClickState',
+  get: ({ get }) => {
+    const clickACount = get(clickAState);
+    const clickBCount = get(clickBState);
+
+    return `You clicked ${clickACount + clickBCount} times in total.`;
+  },
+  // setter 추가
+  set: ({ set }) => {
+    // 각 atom의 값을 0으로 바꾼다.
+    set(clickAState, 0);
+    set(clickBState, 0);
+  },
+});
+
+function ButtonA() {
+  const [count, setCount] = useRecoilState(clickAState);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+function ButtonB() {
+  const [count, setCount] = useRecoilState(clickBState);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+function App() {
+  // 이제는 set 함수도 가져와야하니 useRecoilState 사용
+  const [totalCount, resetTotalCount] = useRecoilState(totalClickState);
+
+  return (
+    <>
+      <ButtonA />
+      <ButtonB />
+      <div>{totalCount}</div>
+      <button onClick={resetTotalCount}>Reset</button>
+    </>
+  );
+}
+
+export default App;
+```
+
+또한, set 함수의 인자로 새로운 값을 넘겨줄 수 있을 뿐만 아니라 get을 통해 setter 내에서 atom이나 다른 selector의 값을 조회할 수 있습니다.
+
+```ts
+selector({
+  key: '...',
+  get: ({ get }) => {
+    /* ... */
+  },
+  set: ({ set, get }, newValue) => {
+    const fooValue = get(fooState);
+    set(barAtom, fooValue + newValue);
+  },
+});
+```
+
+### Selector를 사용하여 비동기 상황 처리하기
