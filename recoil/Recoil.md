@@ -1,20 +1,27 @@
 # 리액티쉬한 상태관리 | Recoil
 
-## 탄생 배경
+## Recoil 이전의 상황
 
-기존의 Redux 같은 경우, 보일러 플레이트가 너무 많고 복잡하며 비동기 처리와 같은 로직을 수행하기 위해서는 redux-saga등의 라이브러리를 추가로 사용해야 하고 근본적으로 리액트를 위해 만들어진 라이브러리가 아니기 때문에 react-redux와 같은 추가 라이브러리를 사용해야 했습니다.
+기존의 Redux 같은 경우, 보일러 플레이트 코드가 너무 많고 복잡하며 비동기 처리와 같은 로직을 수행하기 위해서는 redux-saga등의 라이브러리를 추가로 사용해야 했습니다. 또한, Redux 자체가 리액트를 위해 만들어진 라이브러리는 아니기 때문에 react-redux와 같은 추가 라이브러리를 사용해야 했습니다.
 
-리액트 자체 기능인 Context API 같은 경우에는 의존하지 않는 값의 변경이 일어났을 때 리렌더링을 막는 것과 같은 최적화가 이루어지지 않기 때문에 Context의 분리에 신경을 써야합니다. 관리하는 전역 상태가 많아짐에 따라 이런 작업들은 번거롭고 귀찮을 수 있습니다.
+다른 대안으로 리액트 자체 기능인 Context API가 있지만 불필요한 렌더링이 발생하는 상황이 자주 발생하기 때문에 규모가 큰 앱에서는 추가적인 최적화가 필요하다는 단점이 있습니다.
 
 ## 장점
 
-"리액트를 알고 있는" 라이브러리이기 때문에 `React.Suspense`와 같은 리액트의 기능을 쉽게 사용할 수 있고 기존에 hook을 사용했다면 쉽게 배울 수 있습니다.
+"리액트를 알고 있는" 라이브러리이기 때문에 `React.Suspense`와 같은 리액트의 기능을 쉽게 사용할 수 있고 hook을 사용했다면 아주 쉽게 배울 수 있습니다.
 
 > Recoil works and thinks like React. Add some to your app and get fast and flexible shared state. - recoiljs.org
 
-액션을 만들고, 액션 생성 함수를 만들고 state 정의하고, 리듀서 만들고... 굉장히 많은 보일러 플레이트를 가지는 Redux와 달리 Recoil에서는 훨씬 적은 코드로 상태를 만들고 사용할 수 있습니다.
+액션 만들고, 액션 생성 함수 만들고 초깃값 만들고, 리듀서 만들고... 굉장히 많은 보일러 플레이트를 가지는 Redux와 달리 Recoil에서는 훨씬 적은 코드로 상태를 만들고 사용할 수 있습니다.
 
 ## 기본 사용법
+
+### Install
+
+```bash
+$ npm i recoil
+$ yarn add recoil
+```
 
 ### RecoilRoot
 
@@ -123,13 +130,11 @@ const totalClickState = selector<string>({
 
 function ButtonA() {
   const [count, setCount] = useRecoilState(clickAState);
-
   return <button onClick={() => setCount(count + 1)}>{count}</button>;
 }
 
 function ButtonB() {
   const [count, setCount] = useRecoilState(clickBState);
-
   return <button onClick={() => setCount(count + 1)}>{count}</button>;
 }
 
