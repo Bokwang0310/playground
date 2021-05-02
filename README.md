@@ -103,11 +103,6 @@ Add command before calling oh-my-zsh:
 fpath+=/home/bokwang/conda-zsh-completion
 ```
 
-Add command after conda initialize:
-```bash
-compinit conda
-```
-
 More proper [info](https://github.com/esc/conda-zsh-completion)
 
 ## VS Code
