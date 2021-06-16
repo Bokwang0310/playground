@@ -58,3 +58,11 @@ console.log(result);
 result = void (function () {})();
 
 console.log(result);
+
+/**
+ * 근데 자바스크립트에 void가 있는 지도 처음 알았다
+ *
+ * 표현식을 평가해서 undefined를 반환한다고 한다.
+ *
+ * 왜 쓰는거지...
+ */
