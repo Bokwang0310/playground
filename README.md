@@ -57,6 +57,10 @@ hint: or --ff-only on the command line to override the configured default per
 hint: invocation.
 ```
 
+```bash
+$ git config --global pull.rebase true
+```
+
 ## Terminal Customizing
 
 Show only current folder in `~/.p10k.zsh`: `truncate_to_last`
