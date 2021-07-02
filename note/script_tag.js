@@ -11,5 +11,5 @@
 /**
  * https://stackoverflow.com/questions/42543729/any-good-reason-not-to-use-script-defer-today
  *
- * 제이쿼리.. 때문이란다
+ * 제이쿼리.. 때문이란다..?
  */
