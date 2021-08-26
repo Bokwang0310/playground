@@ -234,5 +234,3 @@ const exampleState = selector({
 const [value, setValue] = useRecoilState(exampleState);
 setValue('The New Value!');
 ```
-
-### Selector를 사용하여 비동기 상황 처리하기
