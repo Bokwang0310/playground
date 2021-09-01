@@ -158,7 +158,7 @@ msg = "끝인사"; // 여기
 console.log(msg);
 
 for (let i = 0; i < 10; i++) { // 여기
-  console.log(`i`번);
+  console.log(`${i}번`);
 }
 ```
 
