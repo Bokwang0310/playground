@@ -2,6 +2,12 @@
 
 ## Git and Github
 
+Change name of branch:
+
+```bash
+$ git branch -m <old name> <new name>
+```
+
 Config account:
 
 ```bash
@@ -108,7 +114,13 @@ scheme:
 Create environment:
 
 ```bash
-$ conda create -n "<name>" python=<version>
+$ conda create -n <name> python=<version>
+```
+
+Delete environment:
+
+```bash
+$ conda remove -n <name> --all
 ```
 
 Disable auto activation base env:
