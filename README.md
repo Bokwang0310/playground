@@ -170,3 +170,13 @@ Global `settings.json`:
   "editor.formatOnSave": true
 }
 ```
+
+## WSL
+
+Window -> WSL로 복사시 자동으로 생기는 `Zone.Identifier` 파일 제거 명령어
+
+> 실행 디렉토리 포함 모든 자식 디렉토리에 적용
+
+```bash
+$ find . -name "*:Zone.Identifier" -type f -delete
+```
